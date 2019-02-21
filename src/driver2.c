@@ -50,13 +50,13 @@
         */
 
 /*     ************** */
-/* Main program */ 
+/* Main program */
 //int MAIN__(void)
-int main(void)
+int foo()
 {
     /* Format strings */
     //static char fmt_16[] = "(/,5x,\002Solving sample problem.\002,/,5x,\002 "
-	    //"(f = 0.0 at the optimal solution.)\002,/)";
+    //"(f = 0.0 at the optimal solution.)\002,/)";
 
     /* System generated locals */
     integer i__1;
@@ -68,13 +68,13 @@ int main(void)
     static integer m, n;
     static double u[1024], x[1024], t1, t2, wa[43251];
     static integer nbd[1024], iwa[3072];
-/*     static char task[60]; */
+    /*     static char task[60]; */
     static integer taskValue;
-    static integer *task=&taskValue; /* must initialize !! */
+    static integer *task = &taskValue; /* must initialize !! */
     static double factr;
-/*     static char csave[60]     */
+    /*     static char csave[60]     */
     static integer csaveValue;
-    static integer *csave=&csaveValue;
+    static integer *csave = &csaveValue;
     static double dsave[29];
     static integer isave[44];
     static logical lsave[4];
@@ -111,7 +111,8 @@ int main(void)
     /*                    u   specifies the upper bounds. */
     /*     First set bounds on the odd numbered variables. */
     i__1 = n;
-    for (i__ = 1; i__ <= i__1; i__ += 2) {
+    for (i__ = 1; i__ <= i__1; i__ += 2)
+    {
         nbd[i__ - 1] = 2;
         l[i__ - 1] = 1.;
         u[i__ - 1] = 100.;
@@ -119,7 +120,8 @@ int main(void)
     }
     /*     Next set bounds on the even numbered variables. */
     i__1 = n;
-    for (i__ = 2; i__ <= i__1; i__ += 2) {
+    for (i__ = 2; i__ <= i__1; i__ += 2)
+    {
         nbd[i__ - 1] = 2;
         l[i__ - 1] = -100.;
         u[i__ - 1] = 100.;
@@ -127,7 +129,8 @@ int main(void)
     }
     /*     We now define the starting point. */
     i__1 = n;
-    for (i__ = 1; i__ <= i__1; ++i__) {
+    for (i__ = 1; i__ <= i__1; ++i__)
+    {
         x[i__ - 1] = 3.;
         /* L14: */
     }
@@ -140,9 +143,9 @@ int main(void)
     /*        ------- the beginning of the loop ---------- */
 L111:
     /*     This is the call to the L-BFGS-B code. */
-    setulb(&n, &m, x, l, u, nbd, &f, g, &factr, &pgtol, wa, iwa, task, &
-            iprint, csave, lsave, isave, dsave);
-    if ( IS_FG(*task) ) {
+    setulb(&n, &m, x, l, u, nbd, &f, g, &factr, &pgtol, wa, iwa, task, &iprint, csave, lsave, isave, dsave);
+    if (IS_FG(*task))
+    {
         /*        the minimization routine has returned to request the */
         /*        function f and gradient g values at the current x. */
         /*        Compute function value f for the sample problem. */
@@ -150,7 +153,8 @@ L111:
         d__1 = x[0] - 1.;
         f = d__1 * d__1 * .25;
         i__1 = n;
-        for (i__ = 2; i__ <= i__1; ++i__) {
+        for (i__ = 2; i__ <= i__1; ++i__)
+        {
             /* Computing 2nd power */
             d__2 = x[i__ - 2];
             /* Computing 2nd power */
@@ -165,7 +169,8 @@ L111:
         t1 = x[1] - d__1 * d__1;
         g[0] = (x[0] - 1.) * 2. - x[0] * 16. * t1;
         i__1 = n - 1;
-        for (i__ = 2; i__ <= i__1; ++i__) {
+        for (i__ = 2; i__ <= i__1; ++i__)
+        {
             t2 = t1;
             /* Computing 2nd power */
             d__1 = x[i__ - 1];
@@ -178,7 +183,8 @@ L111:
         goto L111;
     }
 
-    if (*task==NEW_X ) {
+    if (*task == NEW_X)
+    {
 
         /*        the minimization routine has returned with a new iterate. */
         /*        At this point have the opportunity of stopping the iteration */
@@ -191,17 +197,19 @@ L111:
         /*          string TASK may be used to store other information. */
         /* 1) Terminate if the total number of f and g evaluations */
         /*             exceeds 99. */
-        if (isave[33] >= 99) {
+        if (isave[33] >= 99)
+        {
             *task = STOP_ITER;
-/*             s_copy(task, "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIM" */
-/*                     "IT", (ftnlen)60, (ftnlen)52); */
+            /*             s_copy(task, "STOP: TOTAL NO. of f AND g EVALUATIONS EXCEEDS LIM" */
+            /*                     "IT", (ftnlen)60, (ftnlen)52); */
         }
         /*  2) Terminate if  |proj g|/(1+|f|) < 1.0d-10, where */
         /*           "proj g" denoted the projected gradient */
-        if (dsave[12] <= (fabs(f) + 1.) * 1e-10) {
+        if (dsave[12] <= (fabs(f) + 1.) * 1e-10)
+        {
             *task = STOP_GRAD;
-/*             s_copy(task, "STOP: THE PROJECTED GRADIENT IS SUFFICIENTLY SMALL", */
-/*                     (ftnlen)60, (ftnlen)50); */
+            /*             s_copy(task, "STOP: THE PROJECTED GRADIENT IS SUFFICIENTLY SMALL", */
+            /*                     (ftnlen)60, (ftnlen)50); */
         }
         /*        We now wish to print the following information at each */
         /*        iteration: */
@@ -213,14 +221,16 @@ L111:
 
         /*        See the comments at the end of driver1 for a description */
         /*        of the variables isave and dsave. */
-        printf("Iterate %5ld  nfg = %4ld   f = %6.4e   |proj g| = %6.4e\n", isave[29], isave[33], f, dsave[12] );
+        printf("Iterate %5ld  nfg = %4ld   f = %6.4e   |proj g| = %6.4e\n", isave[29], isave[33], f, dsave[12]);
         /*        If the run is to be terminated, we print also the information */
         /*        contained in task as well as the final value of x. */
-        if (IS_STOP(*task)) {
+        if (IS_STOP(*task))
+        {
             printf(" Final X = \n");
             i__1 = n;
-            for (i__ = 1; i__ <= i__1; ++i__) {
-                printf("%.3e ", x[i__-1]);
+            for (i__ = 1; i__ <= i__1; ++i__)
+            {
+                printf("%.3e ", x[i__ - 1]);
             }
             printf("\n");
         }
@@ -231,4 +241,3 @@ L111:
     /*     If task is neither FG nor NEW_X we terminate execution. */
     return 0;
 } /* MAIN__ */
-
